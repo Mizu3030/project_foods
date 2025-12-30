@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Food Vocabulary Quiz</title>
+  <style>
+    .option {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .correct { background-color: green; color: white; }
+    .wrong { background-color: red; color: white; }
+    .disabled { opacity: 0.6; pointer-events: none; }
+    #nextBtn { margin-top: 15px; padding: 10px 20px; }
+  </style>
+</head>
+<body>
+  <h2>🍎 Food Vocabulary – Microlearning Unit</h2>
+
+  <div id="quiz">
+    <!-- السؤال الأول -->
+    <div class="question">
+      <p>What is the English word for 'جبن'?</p>
+      <button class="option" onclick="check(this, 'Cheese')">Apple</button>
+      <button class="option" onclick="check(this, 'Cheese')">Cheese</button>
+      <button class="option" onclick="check(this, 'Cheese')">Juice</button>
+    </div>
+
+    <!-- السؤال الثاني -->
+    <div class="question" style="display:none;">
+      <p>What is the English word for 'عصير'?</p>
+      <button class="option" onclick="check(this, 'Juice')">Bread</button>
+      <button class="option" onclick="check(this, 'Juice')">Juice</button>
+      <button class="option" onclick="check(this, 'Juice')">Salad</button>
+    </div>
+  </div>
+
+  <button id="nextBtn" onclick="nextQuestion()" style="display:none;">التالي ➡️</button>
+  <p id="score">Score: 0</p>
+
+  <script>
+    let score = 0;
+    let currentQuestion = 0;
+    const questions = document.querySelectorAll(".question");
+    const nextBtn = document.getElementById("nextBtn");
+
+    function check(btn, correctAnswer) {
+      const userAnswer = btn.innerText;
+      const buttons = btn.parentElement.querySelectorAll("button");
+
+      buttons.forEach(b => {
+        b.classList.add("disabled");
+        if (b.innerText === correctAnswer) {
+          b.classList.add("correct");
+        }
+      });
+
+      if (userAnswer === correctAnswer) {
+        score += 5;
+      } else {
+        btn.classList.add("wrong");
+      }
+
+      document.getElementById("score").innerText = "Score: " + score;
+      nextBtn.style.display = "inline-block";
+    }
+
+    function nextQuestion() {
+      questions[currentQuestion].style.display = "none";
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        questions[currentQuestion].style.display = "block";
+        nextBtn.style.display = "none";
+      } else {
+        document.getElementById("quiz").innerHTML = "<h3>🎉 انتهيت! الدرجة النهائية: " + score + "</h3>";
+        nextBtn.style.display = "none";
+      }
+    }
+  </script>
+</body>
+</html>
